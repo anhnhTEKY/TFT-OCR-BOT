@@ -68,12 +68,27 @@ class Game:
         ran_round: str = None
         while game_functions.check_alive():
             self.round: str = game_functions.get_round()
-
+            self.SPAMING = settings.SPAMING
+            
             if settings.FORFEIT:
                 if perf_counter() - self.start_time > self.forfeit_time:
+                    self.SPAMING = False
+                    game_functions.send_message(settings.FORFEIT_MESSAGE)
+                    game_functions.send_message(settings.CREFITS_MESSAGE)
+                    game_functions.send_message(settings.DOWNLOAD_MESSAGE)
                     game_functions.forfeit()
                     return
 
+            if self.SPAMING and self.round != "1-1":
+                #select random message from spam messages list
+                message = random.choice(settings.SPAM_LIST)
+                game_functions.send_message(message)
+
+            if self.round == "1-1":
+                game_functions.send_message(settings.STARTGAME_MESSAGE)
+                game_functions.send_message(settings.CREFITS_MESSAGE)
+                game_functions.send_message(settings.DOWNLOAD_MESSAGE)
+                
             if self.round != ran_round and self.round in game_assets.CAROUSEL_ROUND:
                 self.carousel_round()
                 ran_round: str = self.round

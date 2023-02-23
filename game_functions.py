@@ -75,3 +75,9 @@ def forfeit() -> None:
     sleep(0.1)
     mk_functions.left_click(screen_coords.SURRENDER_TWO_LOC.get_coords())
     sleep(1)
+
+def send_chat_message(message: str) -> None:
+    """Sends a chat message"""
+    mk_functions.press_enter()
+    mk_functions.type_string(message)
+    mk_functions.press_enter()
